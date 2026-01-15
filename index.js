@@ -2,7 +2,9 @@
 require("dotenv").config();
 const express = require("express")
 const cors = require("cors")
-const app = express()
+const app = express();
+const fs = require("fs");
+const path = require("path");
 app.use(cors("dev"))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
@@ -15,7 +17,15 @@ const productRouter = require("./routes/product.route")
 const categoryRouter = require("./routes/category.route")
 const cartRouter = require("./routes/cart.route")
 const orderRouter = require("./routes/order.route")
-const paymentRouter = require("./routes/payment.route")
+const paymentRouter = require("./routes/payment.route");
+
+
+const uploadDir = path.join(__dirname, "uploads");
+
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+  console.log("📁 uploads folder created");
+}
 
 app.use("/uploads", express.static("uploads"));
 
